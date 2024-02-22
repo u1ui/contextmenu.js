@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width">
+    <script src="../../u1/tests/test-init.js" type=module></script>
+<body>
+
+<section>
+    <button>button 1</button>
+    <button>button 2</button>
+</section>
+
+<script type=module>
+
+import {contextMenu} from '../contextmenu.js';
+
+contextMenu.add([
+    {
+        label: 'Button',
+        action: e => alert(e.target.textContent),
+        iconUrl: 'https://cdn.jsdelivr.net/npm/@material-icons/svg@1.0.11/svg/adjust/baseline.svg',
+        selector: 'button'
+    },{
+        label: 'Global',
+        iconUrl: 'https://cdn.jsdelivr.net/npm/@material-icons/svg@1.0.11/svg/public/baseline.svg',
+        children: [
+            {
+                label: 'Submenu 1',
+                action(e) { alert(this.label + ' by ' + e.originalEvent.type) },
+                shortcut: 'Ctrl+1',
+            },
+            {
+                label: 'Submenu 2',
+                action(e) { alert(this.label + ' by ' + e.originalEvent.type) },
+                shortcut: 'Ctrl+2',
+            },
+        ]
+    },
+]);
+
+</script>

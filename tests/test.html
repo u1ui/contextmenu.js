@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width">
+    <script src="../../u1/tests/test-init.js" type=module></script>
+
+    <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/u1ui/base.css/full.css">
+    <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/variables.min.css">
+    <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/classless.min.css">
+    <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/more.min.css">
+    <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/aria.min.css">
+    <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/u1ui/classless.css/simple.min.css">
+
+
+
+    <script src="../contextmenu.js" type=module></script>
+
+</head>
+
+<body>
+
+    <script type=module>
+        import {contextMenu} from '../contextmenu.js';
+
+        contextMenu.addItem('Icon',{
+            action: () => alert('Eine Section'),
+            iconUrl: 'https://cdn.jsdelivr.net/npm/@material-icons/svg@1.0.11/svg/search/baseline.svg',
+        });
+
+        contextMenu.addItem('Shortcut',{
+            action: (e) => alert('by shortcut? '+e.originalEvent.type),
+            shortcut: 'Ctrl + X',
+        });
+
+        const more = contextMenu.addItem('Mehr')
+        more.addItem('This item has a label with very long text, is it truncated?',{
+            action: () => alert('should be truncated'),
+        });
+        more.addItem('Label with <b style="color:green">html</b> in it',{
+            action: () => alert('look at the source code'),
+        });
+
+
+        contextMenu.add({
+            'multi on menu': e=>console.log(e),
+            'multi on menu second': e=>console.log(e),
+        });
+
+
+        const addItems = contextMenu.addItem('multi on item').add({
+            'obj index 1': e=>console.log(e),
+            'obj index 2': {
+                'small': e=>alert('should have a min width'),
+                'ok?': e=>alert('should have a max width'),
+            },
+            'obj index 3': [
+                {label: 'array item 1',action: e=>console.log(e)},
+                {label: 'array item 2',action: e=>console.log(e), children: [
+                    {label: 'array item 2.1', action: e=>console.log(e)},
+                    {label: 'array item 2.2', action: e=>console.log(e)}
+                ],
+            }],
+        });
+
+        contextMenu.addItem('custom html',{
+            html: '<div class=-item style="justify-content:center"><button>left</button><button>center</button><button>right</button></div>',
+            selector: 'section'
+        });
+        contextMenu.addItem('checkbox (html)',{
+            html: `
+                <label class=-item>
+                    <span class=-icon><input type=checkbox></span>
+                    <span class=-label>Checkbox</span>
+                </label>`
+        });
+        contextMenu.addItem('input',{
+            html: `
+                <label class=-item>
+                    <span class=-label><input placeholder="value"></span>
+                </label>`,
+            selector: 'input, textarea',
+            onparse(e) {
+                const inp = this.el.querySelector('input');
+                inp.value = e.target.value;
+                inp.oninput = () => e.target.value = inp.value;
+            }
+        });
+
+
+    </script>
+
+
+    <section tabindex="0">
+        Dies ist eine section
+
+        <br>
+        <label>
+            <input type="text" value="Hallo"><br>
+        </label>
+        <label>
+            <input type="text" value="World"><br>
+        </label>
+
+    </section>
