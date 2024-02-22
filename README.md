@@ -63,7 +63,7 @@ object.
     - `event.target`: The element that matched the selector.
     - `event.originalEvent`: The original event that triggered the menu.
     - `this`: The menu item object.
-- `shortcut`: A keyboard shortcut to trigger the menu item (whitout the open context menu). ). Example: `'Ctrl + I + O'`.
+- `shortcut`: A keyboard shortcut to trigger the menu item (whitout the open context menu). Example: `'Ctrl + I + O'`.
 - `selector`: A CSS selector for the type of element the menu item should appear for. If no selector is provided, the menu item will appear everywhere.
 - `iconUrl`: A URL to an icon to display next to the menu item.
 - `html`: Custom HTML to display in the menu item. If this is provided, `action`, `label` and `iconUrl` are ignored.
