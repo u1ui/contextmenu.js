@@ -1,5 +1,5 @@
 # contextmenu.js
-undefined
+context menus, simple and highly customisable
 
 ## Features
 
