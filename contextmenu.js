@@ -4,6 +4,7 @@ class Menu {
     constructor(menuItem) {
         this.menuItem = menuItem;
         this.el = document.createElement('menu');
+        this.el.part = 'menu';
         this.children = [];
     }
     addItem(label, opt={}) {
@@ -12,9 +13,16 @@ class Menu {
         this.children.push(item);
         return item;
     }
+    addSeparator() {
+        const li = document.createElement('li');
+        li.role = 'separator';
+        li.style.cssText = 'margin:.5em 0; border-top:1px solid #ddd';
+        this.el.append(li);
+    }
     add(items) {
         if (Array.isArray(items)) {
             for (const opt of items) {
+                if (opt === '-') { this.addSeparator(); continue; }
                 const item = this.addItem(opt.label, opt);
                 if (opt.children) item.add(opt.children);
             }
@@ -65,6 +73,7 @@ class MenuItem {
         this.options = options;
         const li = this.el = document.createElement('li');
         li.role = 'menuitem';
+        li.part = 'item';
 
         if (options.html) {
             li.innerHTML = options.html;
@@ -116,9 +125,8 @@ class MenuItem {
         opt.selector ??= this.options?.selector;
         return this.subMenu().addItem(label, opt);
     }
-    add(items) {
-        this.subMenu().add(items);
-    }
+    add(items) { this.subMenu().add(items); }
+    addSeparator() { this.subMenu().addSeparator(); }
     parseFor(element) {
         this.currentActive = this._subMenu?.parseFor(element);
         this.currentTarget = this.options.selector ? element.closest(this.options.selector) : document.documentElement;
@@ -142,7 +150,7 @@ const css =
 '	position:fixed; '+
 '	top:0; '+
 '	background-color:#fff; '+
-'	box-shadow:0 0 .4em rgba(0,0,0,.3); '+
+'	box-shadow:0 0 .8em rgba(0,0,0,.08); '+
 '	list-style:none; '+
 '	font-family:Arial; '+
 '	font-size:14px; '+
@@ -184,6 +192,9 @@ const css =
 '#u1ContextMenu li > button:focus { '+
 '	background:#f3f3f3; '+
 '} '+
+'#u1ContextMenu li:focus-within { '+
+'	background-color:#f3f3f3; '+
+'} '+
 '#u1ContextMenu .-icon { '+
 '   display:flex; '+
 '   align-items:center; '+
@@ -207,9 +218,6 @@ const css =
 '	font-size:.8em; '+
 '	white-space:nowrap; '+
 '	opacity:.5; '+
-'} '+
-'#u1ContextMenu li:focus-within { '+
-'	background-color:#f3f3f3; '+
 '} '+
 '#u1ContextMenu li[hidden] { '+
 '	display:none !important; '+
@@ -260,6 +268,7 @@ document.head.prepend(style);
 
 /* using shadowdom */
 const menuContainer = document.createElement('div');
+menuContainer.id = 'u1ContextMenuContainer';
 const shadowRoot = menuContainer.attachShadow({mode: 'open'});
 menuContainer.style.display = 'contents';
 document.documentElement.appendChild(menuContainer);
@@ -272,6 +281,8 @@ shadowRoot.appendChild(rootEl);
 
 document.documentElement.addEventListener('contextmenu', e=>{
     if (e.shiftKey) return;
+    if (e.target === menuContainer) return;
+    //if (rootEl.contains(e.originalTarget)) return;
     const has = contextMenu.parseFor(e.target);
     if (!has) return;
     e.preventDefault();

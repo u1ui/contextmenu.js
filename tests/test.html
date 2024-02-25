@@ -33,13 +33,15 @@
             shortcut: 'Ctrl + X',
         });
 
-        const more = contextMenu.addItem('Mehr')
+        const more = contextMenu.addItem('Mehr');
         more.addItem('This item has a label with very long text, is it truncated?',{
             action: () => alert('should be truncated'),
         });
         more.addItem('Label with <b style="color:green">html</b> in it',{
             action: () => alert('look at the source code'),
         });
+        
+        contextMenu.addSeparator();
 
 
         contextMenu.add({
@@ -56,6 +58,7 @@
             },
             'obj index 3': [
                 {label: 'array item 1',action: e=>console.log(e)},
+                '-',
                 {label: 'array item 2',action: e=>console.log(e), children: [
                     {label: 'array item 2.1', action: e=>console.log(e)},
                     {label: 'array item 2.2', action: e=>console.log(e)}
@@ -103,3 +106,15 @@
         </label>
 
     </section>
+
+
+    <style>
+        #u1ContextMenuContainer::part(menu) {
+            border-radius: .8em;
+            padding: .5em;
+        }
+        #u1ContextMenuContainer::part(item) {
+            border-radius: .5em;
+            overflow: hidden;
+        }
+    </style
