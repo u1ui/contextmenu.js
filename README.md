@@ -19,7 +19,7 @@ contextMenu.add([
     {
         label: 'Button',
         action: e => alert(e.target.textContent),
-        iconUrl: 'https://cdn.jsdelivr.net/npm/@material-icons/svg@1.0.11/svg/adjust/baseline.svg',
+        iconUrl: '<svg viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10s10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3z"/></svg>',
         selector: 'button'
     },{
         label: 'Global',
@@ -65,8 +65,8 @@ object.
     - `this`: The menu item object.
 - `shortcut`: A keyboard shortcut to trigger the menu item (whitout the open context menu). Example: `'Ctrl + I + O'`.
 - `selector`: A CSS selector for the type of element the menu item should appear for. If no selector is provided, the menu item will appear everywhere.
-- `iconUrl`: A URL to an icon to display next to the menu item.
-- `html`: Custom HTML to display in the menu item. If this is provided, `action`, `label` and `iconUrl` are ignored.
+- `icon`: SVG-string or name of a [material icon](https://fonts.google.com/icons?icon.style=Rounded).
+- `html`: Custom HTML to display in the menu item. If this is provided, `action`, `label` and `icon` are ignored.
 - `children`: An array of sub-menu items. Each sub-menu item has the same properties as a top-level menu item.
 
 

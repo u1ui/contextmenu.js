@@ -23,17 +23,18 @@
     <script type=module>
         import {contextMenu} from '../contextmenu.js';
 
-        contextMenu.addItem('Icon',{
+        contextMenu.addItem('Icon as SVG',{
             action: () => alert('Eine Section'),
-            iconUrl: 'https://cdn.jsdelivr.net/npm/@material-icons/svg@1.0.11/svg/search/baseline.svg',
+            icon: '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1-.01-8.99A4.5 4.5 0 0 1 9.5 14z"/></svg>',
         });
 
         contextMenu.addItem('Shortcut',{
-            action: (e) => alert('by shortcut? '+e.originalEvent.type),
-            shortcut: 'Ctrl + X',
+            action: (e) => alert('triggered by: '+e.originalEvent.type),
+            icon: 'article_shortcut',
+            shortcut: 'Ctrl + M + K',
         });
 
-        const more = contextMenu.addItem('Mehr');
+        const more = contextMenu.addItem('Mehr', {icon: 'add_circle'});
         more.addItem('This item has a label with very long text, is it truncated?',{
             action: () => alert('should be truncated'),
         });
@@ -67,7 +68,12 @@
         });
 
         contextMenu.addItem('custom html',{
-            html: '<div class=-item style="justify-content:center"><button>left</button><button>center</button><button>right</button></div>',
+            html: `
+                <div class=-item style="justify-content:center">
+                    <button role=menuitem>left</button>
+                    <button role=menuitem>center</button>
+                    <button role=menuitem>right</button>
+                </div>`,
             selector: 'section'
         });
         contextMenu.addItem('checkbox (html)',{
@@ -99,22 +105,27 @@
 
         <br>
         <label>
-            <input type="text" value="Hallo"><br>
+            <input type=text value=Hallo><br>
         </label>
         <label>
-            <input type="text" value="World"><br>
+            <input type=text value=World><br>
         </label>
 
     </section>
 
 
-    <style>
-        #u1ContextMenuContainer::part(menu) {
-            border-radius: .8em;
-            padding: .5em;
-        }
-        #u1ContextMenuContainer::part(item) {
-            border-radius: .5em;
-            overflow: hidden;
-        }
-    </style
+    <style style="display:block" contenteditable>
+html {
+    --color: #88c4ff;
+    --color-bg:    #eef7ff;
+    --color-text:  #001040;
+}
+#u1ContextMenuContainer::part(menu) {
+    border-radius: .8em;
+    padding: .5em;
+}
+#u1ContextMenuContainer::part(item) {
+    border-radius: .5em;
+    overflow: hidden;
+}
+    </style>
